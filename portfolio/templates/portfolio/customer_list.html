@@ -64,13 +64,17 @@
                     </td>
 
 
-                    <td><a href=""
+                    <td><a href="{% url 'portfolio:portfolio' pk=customer.pk %}"
                            class="btn btn-primary">Portfolio</a>
 
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+    <div class="row">
+         <a href="{% url 'portfolio:customer_new' %}" class="row"><span
+                    class="btn btn-primary">Add customer</span></a>
+     </div>
 
     </div>
     </body>
