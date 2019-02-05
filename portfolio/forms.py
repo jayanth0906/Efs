@@ -22,5 +22,3 @@ class InvestmentForm(forms.ModelForm):
                   'recent_date')
 
 
-
-0

@@ -45,8 +45,11 @@
                 height: auto;
             }
         }
+
     </style>
+
 </head>
+
 <body id="app-layout">
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -72,7 +75,7 @@
                 <li><a href="{% url 'portfolio:customer_list' %}">Customers</a></li>
                <li><a href="{% url 'portfolio:investment_list' %}">Investments</a></li>
                 <li><a href="{% url 'portfolio:stock_list' %}">Stocks</a></li>
-
+        
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
@@ -89,6 +92,7 @@
                 {% endif %}
             </ul>
         </div>
+
     </div>
 </nav>
 <div class="content container">

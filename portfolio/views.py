@@ -5,6 +5,12 @@ from .forms import *
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from django.db.models import Sum
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import CustomerSerializer
+
+
 
 
 now = timezone.now()
@@ -166,36 +172,25 @@ def investment_delete(request, pk):
 def portfolio(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     customers = Customer.objects.filter(created_date__lte=timezone.now())
-    investments =Investment.objects.filter(customer=pk)
+    investments = Investment.objects.filter(customer=pk)
     stocks = Stock.objects.filter(customer=pk)
-    sum_recent_value = Investment.objects.filter(customer=pk).aggregate(Sum('recent_value'))
     sum_acquired_value = Investment.objects.filter(customer=pk).aggregate(Sum('acquired_value'))
-    #overall_investment_results = sum_recent_value-sum_acquired_value
+    sum_recent_value = Investment.objects.filter(customer=pk).aggregate(Sum('recent_value'))
+
     # Initialize the value of the stocks
     sum_current_stocks_value = 0
-    sum_of_initial_stock_value = 0
 
-    #***** Currency Layer Code *********************************
-    convert_base_url = 'http://apilayer.net/api/live?access_key='
-    convert_api_key = 'c6e55388423a859272fe982e5546ca9a'
-    base_currency = '&source=USD'
-    convert_currency = '&currencies=EUR'
-    convert_format = '&format=1'
-    convert_url = convert_base_url+convert_api_key+convert_currency+base_currency+convert_format
-    rates = requests.get(convert_url).json()
-    eur_conv_rate = rates["quotes"]["USDEUR"]
-    #****** Currency Layer Code **********************************
-
-    # Loop through each stock and add the value to the total
-    for stock in stocks:
-        sum_current_stocks_value += stock.current_stock_value()
-        sum_of_initial_stock_value += stock.initial_stock_value()
-
-    return render(request, 'portfolio/portfolio.html', {'customers': customers,
-                                                        'investments': investments,
+    return render(request, 'portfolio/portfolio.html', {'customers': customers, 'investments': investments,
                                                         'stocks': stocks,
                                                         'sum_acquired_value': sum_acquired_value,
                                                         'sum_recent_value': sum_recent_value,
-                                                        'sum_current_stocks_value': sum_current_stocks_value,
-                                                        'sum_of_initial_stock_value': sum_of_initial_stock_value,
-                                                        'eur_conv_rate': eur_conv_rate})
+                                                        })
+
+
+# List at the end of the views.py
+# Lists all customers
+class CustomerList(APIView):
+    def get(self, request):
+        customers_json = Customer.objects.all()
+        serializer = CustomerSerializer(customers_json, many=True)
+        return Response(serializer.data)

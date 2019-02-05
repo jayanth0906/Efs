@@ -57,7 +57,7 @@
         </table>
     </div>
 
-    <div class="row">
+      <div class="row">
         <h2 style="padding-left: 15Px">Stocks Information</h2>
     </div>
     <div class="row">
@@ -70,8 +70,6 @@
                 <th>Shares</th>
                 <th>Initial Stock Price</th>
                 <th>Initial Stock Value</th>
-                <th>Current Stock Price</th>
-                <th>Current Stock Value</th>
                 <th>Results (USD)</th>
                 <th>Results (EUR)</th>
             </tr>
@@ -84,11 +82,8 @@
                     <td>{{ stock.name }}</td>
                     <td>{{ stock.shares|intcomma }}</td>
                     <td>{{ stock.purchase_price|intcomma }}</td>
-                    <td>{{ stock.initial_stock_value|intcomma }}</td>
-                    <td>{{ stock.current_stock_price|intcomma }}</td>
-                    <td>{{ stock.current_stock_value|intcomma }}</td>
-                    <td>{{ stock.current_stock_value|sub:stock.initial_stock_value|intcomma }}</td>
-                    <td>{{ stock.current_stock_value|sub:stock.initial_stock_value|mul:eur_conv_rate|intcomma }}</td>
+
+
                 </tr>
             {% endfor %}
             </tbody>
@@ -107,10 +102,7 @@
             </thead>
             <tbody>
             <tr>
-                <td>{{ sum_of_initial_stock_value|intcomma }}</td>
-                <td>{{ sum_current_stocks_value|intcomma }}</td>
-                <td>{{ sum_current_stocks_value|sub:sum_of_initial_stock_value|intcomma }}</td>
-                <td>{{ sum_current_stocks_value|sub:sum_of_initial_stock_value|mul:eur_conv_rate|intcomma }}</td>
+
             </tr>
             </tbody>
         </table>
